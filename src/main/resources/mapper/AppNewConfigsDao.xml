@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.AppNewConfigsDao">
+
+    <resultMap type="com.example.demo.entity.AppNewConfigs" id="AppNewConfigsMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="appId" column="app_ids" jdbcType="INTEGER"/>
+        <result property="configName" column="config_name" jdbcType="VARCHAR"/>
+        <result property="configValue" column="config_value" jdbcType="VARCHAR"/>
+        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+        <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+        <association property="apps" column="111" javaType="com.example.demo.entity.Apps">
+            <result property="id" column="apps_id" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="key" column="key" jdbcType="VARCHAR"/>
+            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+            <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+        </association>
+    </resultMap>
+
+    <sql id="table_field">
+        id, app_id, config_name, config_value, created_at, updated_at</sql>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="AppNewConfigsMap">
+        select
+        t2.id as apps_id,
+        t2.`name`,
+        t2.`key`,
+        t2.`created_at`,
+        t2.`updated_at`,
+        t2.id,
+        t1.app_id as app_ids,
+        t1.config_name,
+        t1.config_value,
+        t1.created_at,
+        t1.updated_at
+        from (select <include refid="table_field"/> from app_new_configs where id = #{id} ) t1
+        inner join apps t2 on t1.app_id = t2.id
+
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="AppNewConfigsMap">
+        select
+        <include refid="table_field"/>
+
+        from app_new_configs
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="AppNewConfigsMap">
+        select
+        <include refid="table_field"/>
+
+        from app_new_configs
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="appId != null">
+                and app_id = #{appId}
+            </if>
+            <if test="configName != null and configName != ''">
+                and config_name = #{configName}
+            </if>
+            <if test="configValue != null and configValue != ''">
+                and config_value = #{configValue}
+            </if>
+            <if test="createdAt != null">
+                and created_at = #{createdAt}
+            </if>
+            <if test="updatedAt != null">
+                and updated_at = #{updatedAt}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into app_new_configs(app_id, config_name, config_value, created_at, updated_at)
+        values (#{appId}, #{configName}, #{configValue}, #{createdAt}, #{updatedAt})
+</insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into app_new_configs(app_id, config_name, config_value, created_at, updated_at)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.appId}, #{entity.configName}, #{entity.configValue}, #{entity.createdAt}, #{entity.updatedAt})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into app_new_configs(app_id, config_name, config_value, created_at, updated_at)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.appId}, #{entity.configName}, #{entity.configValue}, #{entity.createdAt}, #{entity.updatedAt})
+        </foreach>
+        on duplicate key update
+        app_id = values(app_id) , config_name = values(config_name) , config_value = values(config_value) , created_at =
+        values(created_at) , updated_at = values(updated_at)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update app_new_configs
+        <set>
+            <if test="appId != null">
+                app_id = #{appId},
+            </if>
+            <if test="configName != null and configName != ''">
+                config_name = #{configName},
+            </if>
+            <if test="configValue != null and configValue != ''">
+                config_value = #{configValue},
+            </if>
+            <if test="createdAt != null">
+                created_at = #{createdAt},
+            </if>
+            <if test="updatedAt != null">
+                updated_at = #{updatedAt},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from app_new_configs where id = #{id}
+</delete>
+
+</mapper>

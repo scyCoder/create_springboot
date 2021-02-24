@@ -2,9 +2,13 @@ package com.example.demo.service.impl;
 
 import com.example.demo.dao.PeopleDao;
 import com.example.demo.entity.People;
+import com.example.demo.entity.Student;
 import com.example.demo.service.PeopleService;
+import com.example.demo.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.List;
 
@@ -18,6 +22,10 @@ import java.util.List;
 public class PeopleServiceImpl implements PeopleService {
     @Autowired
     private PeopleDao peopleDao;
+    @Autowired
+    private StudentService studentServiceImpl;
+
+    private final People people = new People();
 
     /**
      * 通过ID查询单条数据
@@ -27,6 +35,8 @@ public class PeopleServiceImpl implements PeopleService {
      */
     @Override
     public People queryById(Integer id) {
+        People people1 = new People();
+        this.people.setName("hello");
         return this.peopleDao.queryById(id);
     }
 
@@ -48,6 +58,7 @@ public class PeopleServiceImpl implements PeopleService {
      * @param people 实例对象
      * @return 实例对象
      */
+    @Transactional
     @Override
     public People insert(People people) {
         this.peopleDao.insert(people);
@@ -60,9 +71,20 @@ public class PeopleServiceImpl implements PeopleService {
      * @param people 实例对象
      * @return 实例对象
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public People update(People people) {
-        this.peopleDao.update(people);
+        try {
+            this.peopleDao.update(people);
+            int i = 1 / 0;
+            Student student = new Student();
+            student.setId(1);
+            student.setScore(66);
+//        studentServiceImpl.update(student);
+        } catch (Exception e) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            e.printStackTrace();
+        }
         return this.queryById(people.getId());
     }
 

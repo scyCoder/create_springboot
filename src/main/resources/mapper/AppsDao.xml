@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.AppsDao">
+
+    <resultMap type="com.example.demo.entity.Apps" id="AppsMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="key" column="key" jdbcType="VARCHAR"/>
+        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+        <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+        <!--collecion和association中的column 可以理解为就是外键字段
+        发现不写这个column属性也可以
+        -->
+        <collection property="appNewConfigsList" ofType="com.example.demo.entity.AppNewConfigs" column="222">
+            <!--因为Apps中也有个id,所以在appNewConfigsList中将column="id"在写select语句时起一个别名，例如app_new_configs_id-->
+            <result property="id" column="app_new_configs_id" jdbcType="INTEGER"/>
+            <result property="appId" column="app_id" jdbcType="INTEGER"/>
+            <result property="configName" column="config_name" jdbcType="VARCHAR"/>
+            <result property="configValue" column="config_value" jdbcType="VARCHAR"/>
+            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+            <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+        </collection>
+    </resultMap>
+
+    <sql id="table_field">
+        id, `name`, `key`, created_at, updated_at</sql>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="AppsMap">
+        select
+        t1.id,
+        t1.`name`,
+        t1.`key`,
+        t1.`created_at`,
+        t1.`updated_at`,
+        t2.id as app_new_configs_id,
+        t2.app_id,
+        t2.config_name,
+        t2.config_value,
+        t2.created_at,
+        t2.updated_at
+        from (select
+        <include refid="table_field"/>
+        from apps where id = #{id}
+        ) t1
+        inner join app_new_configs t2 on t1.id = t2.app_id
+
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="AppsMap">
+        select
+        <include refid="table_field"/>
+
+        from apps
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="AppsMap">
+        select
+        <include refid="table_field"/>
+
+        from apps
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="key != null and key != ''">
+                and key = #{key}
+            </if>
+            <if test="createdAt != null">
+                and created_at = #{createdAt}
+            </if>
+            <if test="updatedAt != null">
+                and updated_at = #{updatedAt}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into apps(name, key, created_at, updated_at)
+        values (#{name}, #{key}, #{createdAt}, #{updatedAt})
+</insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into apps(name, key, created_at, updated_at)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.name}, #{entity.key}, #{entity.createdAt}, #{entity.updatedAt})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into apps(name, key, created_at, updated_at)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.name}, #{entity.key}, #{entity.createdAt}, #{entity.updatedAt})
+        </foreach>
+        on duplicate key update
+        name = values(name) , key = values(key) , created_at = values(created_at) , updated_at = values(updated_at)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update apps
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="key != null and key != ''">
+                key = #{key},
+            </if>
+            <if test="createdAt != null">
+                created_at = #{createdAt},
+            </if>
+            <if test="updatedAt != null">
+                updated_at = #{updatedAt},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from apps where id = #{id}
+</delete>
+
+</mapper>

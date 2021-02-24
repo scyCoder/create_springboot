@@ -33,4 +33,23 @@ public class PeopleController {
         return this.peopleServiceImpl.queryById(id);
     }
 
+    public void hello() {
+        String he = "hello";
+        switch (he) {
+            case "hello":
+                break;
+            default:
+                break;
+        }
+    }
+
+
+    public void test1(int he,double wo) {
+
+    }
+
+    public void test1(double wo,int he) {
+
+    }
+
 }

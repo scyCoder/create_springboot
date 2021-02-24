@@ -50,6 +50,7 @@
         <!--        <appender-ref ref="socket" />-->
         <appender-ref ref="FILE"/>
     </root>
+    <!--下面的logger不要也能打印SQL语句-->
     <logger name="com.apache.ibatis" level="DEBUG"/>
     <logger name="java.sql.Connection" level="DEBUG"/>
     <logger name="java.sql.Statement" level="DEBUG"/>
