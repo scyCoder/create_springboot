@@ -81,4 +81,6 @@ public interface AppNewConfigsDao {
      */
     int deleteById(Long id);
 
+    List<AppNewConfigs> queryByAppId(Integer appId);
+
 }

@@ -12,7 +12,7 @@ import com.example.demo.entity.People;
 /**
  * 抽象类可以实现接口，可已继承其他类，也可以有main方法
  */
-public abstract class Hello extends People {
+public abstract class Hello11 extends People {
 
 
     public static void main(String[] args) {

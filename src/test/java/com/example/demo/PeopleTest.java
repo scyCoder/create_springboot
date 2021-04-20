@@ -1,13 +1,24 @@
 package com.example.demo;
 
+import com.example.demo.conf.TestAnnotaionConditionalOnProperties;
+import com.example.demo.controller.abstra.TestAbstractController;
+import com.example.demo.entity.Apps;
 import com.example.demo.entity.People;
 import com.example.demo.service.PeopleService;
+import com.example.demo.service.impl.thread.ThreadServiceTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.util.Assert;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
-import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @author sunchuanyin
@@ -21,7 +32,8 @@ public class PeopleTest extends DemoApplicationTests {
     private PeopleService peopleServiceImpl;
 
     @Autowired
-    private HttpServletRequest request;
+    private ThreadServiceTest threadServiceTest;
+
 
     public static int staticVar = 0;
     public int instanceVar = 0;
@@ -144,4 +156,80 @@ public class PeopleTest extends DemoApplicationTests {
         }
     }
 
+    @Test
+    public void test8() {
+//        People people = new People();
+//        System.out.println(peopleServiceImpl.insert(people));
+        double a = 25 / 2;
+        System.out.println(a);
+
+        File file = new File(".");
+        File[] files = file.listFiles(File::isHidden);
+
+    }
+
+
+    @Test
+    public void test9() {
+        Apps apps = new Apps();
+        if (1 == apps.getHello()) {
+            System.out.println("相等");
+        } else {
+            System.out.println("不相等");
+        }
+    }
+
+    @Test
+    public void test10() {
+        MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+        map.add("hello", "1");
+        map.add("hello", 1);
+        System.out.println(map);
+    }
+
+    @Test
+    public void test11() {
+        try {
+            threadServiceTest.threadServiceTest();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    @Test
+    public void test12() {
+        Map<String, TestAbstractController> beansOfType = applicationContext.getBeansOfType(TestAbstractController.class);
+        System.out.printf(beansOfType.toString());
+    }
+
+
+    @Test
+    public void test13() {
+        String hello = null;
+        Assert.notNull(hello,"hello不能为空");
+        System.out.println("helloo-------");
+    }
+
+    @Test
+    public void test14() {
+        BigDecimal hello = new BigDecimal(1);
+        System.out.println(hello.toPlainString());
+    }
+
+    @Autowired
+    private TestAnnotaionConditionalOnProperties conditionalOnProperties;
+
+    @Test
+    public void test15() {
+        if (conditionalOnProperties == null) {
+            System.out.println("conditionalOnProperties为空");
+            return;
+        }
+        System.out.printf(conditionalOnProperties.hello());
+    }
 }

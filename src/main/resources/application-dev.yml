@@ -1,9 +1,11 @@
 server:
-  port: 8888
+  port: 8801
+  servlet:
+    context-path: /test-demo
 
 spring:
   application:
-    name: test-demo
+    name: test-demo12345566
   datasource:
     url: jdbc:mysql://localhost:3306/test-demo?autoReconnect=true&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -18,15 +20,39 @@ spring:
       connection-timeout: 30000
       pool-name: DatebookHikariCP
 
+
+  # 热部署配置，只是对页面即时生效，对于java代码还是重启了项目
+#  devtools:
+#    restart:
+#      # 设置开启热部署
+#      enabled: true
+#      # 重启目录
+#      additional-paths: src/main/java
+#      exclude: web-files/**
+#  freemarker:
+#    # 页面不加载缓存，修改即时生效
+#    cache: false
+
 #sql位置
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.example.demo
+  configuration:
+    # mybatis的延迟加载
+    lazy-loading-enabled: true
+    aggressive-lazy-loading: false
 
 #日志（有sql语句的打印）
 logging:
   config: classpath:log-local.xml
   level:
     "com.example.demo": debug
+
+#enable swagger
+swagger:
+  enable: true
+
+#system:
+#  test: true
 
 

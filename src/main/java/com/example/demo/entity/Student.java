@@ -9,11 +9,11 @@ import java.util.Date;
  * (Student)实体类
  *
  * @author sunchuanyin
- * @since 2021-02-22 11:42:17
+ * @since 2021-02-25 11:48:45
  */
 @Data
 public class Student implements Serializable {
-    private static final long serialVersionUID = 309226410284858589L;
+    private static final long serialVersionUID = -17304785869668609L;
     /**
      * 主键
      */
@@ -34,6 +34,12 @@ public class Student implements Serializable {
      * 更新时间
      */
     private Date updatedAt;
+    /**
+     * 教师id
+     */
+    private Integer tId;
 
+
+    private Teacher teacher;
 
 }

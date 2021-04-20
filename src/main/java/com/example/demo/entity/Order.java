@@ -20,6 +20,7 @@ public class Order implements Serializable {
     /**
      * 价格
      */
+    // @JsonIgnore 有这个注解，不会把被这个注解修饰的字段返回到前端
     private Integer price;
 
 

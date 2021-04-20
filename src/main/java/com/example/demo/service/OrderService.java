@@ -56,4 +56,5 @@ public interface OrderService {
 
     int insertOrder(Map<String,Object> map);
 
+    int getHello();
 }

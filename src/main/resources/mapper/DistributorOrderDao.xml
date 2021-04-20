@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.DistributorOrderDao">
+
+    <resultMap type="com.example.demo.entity.DistributorOrder" id="DistributorOrderMap">
+        <result property="distributorId" column="distributor_id" jdbcType="INTEGER"/>
+        <result property="distributorName" column="distributor_name" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="submitCode" column="submit_code" jdbcType="VARCHAR"/>
+        <result property="submitMsg" column="submit_msg" jdbcType="VARCHAR"/>
+        <result property="reportCode" column="report_code" jdbcType="VARCHAR"/>
+        <result property="reportMsg" column="report_msg" jdbcType="VARCHAR"/>
+        <result property="pushCode" column="push_code" jdbcType="VARCHAR"/>
+        <result property="pushMsg" column="push_msg" jdbcType="VARCHAR"/>
+        <result property="platformOrderId" column="platform_order_id" jdbcType="VARCHAR"/>
+        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+        <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+        <result property="cpid" column="cpid" jdbcType="INTEGER"/>
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="orderid" column="orderid" jdbcType="VARCHAR"/>
+        <result property="timestamp" column="timestamp" jdbcType="VARCHAR"/>
+        <result property="usercode" column="usercode" jdbcType="VARCHAR"/>
+        <result property="account" column="account" jdbcType="VARCHAR"/>
+        <result property="num" column="num" jdbcType="VARCHAR"/>
+        <result property="price" column="price" jdbcType="VARCHAR"/>
+        <result property="callbackUrl" column="callback_url" jdbcType="VARCHAR"/>
+        <result property="orderRequestSign" column="order_request_sign" jdbcType="VARCHAR"/>
+        <result property="callbackRequestCode" column="callback_request_code" jdbcType="INTEGER"/>
+        <result property="callbackRequestMsg" column="callback_request_msg" jdbcType="VARCHAR"/>
+        <result property="cporderid" column="cpOrderId" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="cardno" column="cardno" jdbcType="VARCHAR"/>
+        <result property="cdkey" column="cdkey" jdbcType="VARCHAR"/>
+        <result property="link" column="link" jdbcType="VARCHAR"/>
+        <result property="callbackRequestSign" column="callback_request_sign" jdbcType="VARCHAR"/>
+        <result property="beginTime" column="begin_time" jdbcType="VARCHAR"/>
+        <result property="endTime" column="end_time" jdbcType="VARCHAR"/>
+        <result property="cdkeyPlaintext" column="cdkey_plaintext" jdbcType="VARCHAR"/>
+        <result property="orderResponseData" column="order_response_data" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="table_field">
+        distributor_id
+        , distributor_name, status, submit_code, submit_msg, report_code, report_msg, push_code, push_msg, platform_order_id, created_at, updated_at, cpid, id, orderid, timestamp, usercode, account, num, price, callback_url, order_request_sign, callback_request_code, callback_request_msg, cpOrderId, type, cardno, cdkey, link, callback_request_sign, begin_time, end_time, cdkey_plaintext, order_response_data</sql>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="DistributorOrderMap">
+        select
+        <include refid="table_field"/>
+
+        from distributor_order
+        where distributor_id = #{distributorId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="DistributorOrderMap">
+        select
+        <include refid="table_field"/>
+
+        from distributor_order
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="DistributorOrderMap">
+        select
+        <include refid="table_field"/>
+
+        from distributor_order
+        <where>
+            <if test="distributorId != null">
+                and distributor_id = #{distributorId}
+            </if>
+            <if test="distributorName != null and distributorName != ''">
+                and distributor_name = #{distributorName}
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+            <if test="submitCode != null and submitCode != ''">
+                and submit_code = #{submitCode}
+            </if>
+            <if test="submitMsg != null and submitMsg != ''">
+                and submit_msg = #{submitMsg}
+            </if>
+            <if test="reportCode != null and reportCode != ''">
+                and report_code = #{reportCode}
+            </if>
+            <if test="reportMsg != null and reportMsg != ''">
+                and report_msg = #{reportMsg}
+            </if>
+            <if test="pushCode != null and pushCode != ''">
+                and push_code = #{pushCode}
+            </if>
+            <if test="pushMsg != null and pushMsg != ''">
+                and push_msg = #{pushMsg}
+            </if>
+            <if test="platformOrderId != null and platformOrderId != ''">
+                and platform_order_id = #{platformOrderId}
+            </if>
+            <if test="createdAt != null">
+                and created_at = #{createdAt}
+            </if>
+            <if test="updatedAt != null">
+                and updated_at = #{updatedAt}
+            </if>
+            <if test="cpid != null">
+                and cpid = #{cpid}
+            </if>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="orderid != null and orderid != ''">
+                and orderid = #{orderid}
+            </if>
+            <if test="timestamp != null and timestamp != ''">
+                and timestamp = #{timestamp}
+            </if>
+            <if test="usercode != null and usercode != ''">
+                and usercode = #{usercode}
+            </if>
+            <if test="account != null and account != ''">
+                and account = #{account}
+            </if>
+            <if test="num != null and num != ''">
+                and num = #{num}
+            </if>
+            <if test="price != null and price != ''">
+                and price = #{price}
+            </if>
+            <if test="callbackUrl != null and callbackUrl != ''">
+                and callback_url = #{callbackUrl}
+            </if>
+            <if test="orderRequestSign != null and orderRequestSign != ''">
+                and order_request_sign = #{orderRequestSign}
+            </if>
+            <if test="callbackRequestCode != null">
+                and callback_request_code = #{callbackRequestCode}
+            </if>
+            <if test="callbackRequestMsg != null and callbackRequestMsg != ''">
+                and callback_request_msg = #{callbackRequestMsg}
+            </if>
+            <if test="cporderid != null and cporderid != ''">
+                and cpOrderId = #{cporderid}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="cardno != null and cardno != ''">
+                and cardno = #{cardno}
+            </if>
+            <if test="cdkey != null and cdkey != ''">
+                and cdkey = #{cdkey}
+            </if>
+            <if test="link != null and link != ''">
+                and link = #{link}
+            </if>
+            <if test="callbackRequestSign != null and callbackRequestSign != ''">
+                and callback_request_sign = #{callbackRequestSign}
+            </if>
+            <if test="beginTime != null and beginTime != ''">
+                and begin_time = #{beginTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                and end_time = #{endTime}
+            </if>
+            <if test="cdkeyPlaintext != null and cdkeyPlaintext != ''">
+                and cdkey_plaintext = #{cdkeyPlaintext}
+            </if>
+            <if test="orderResponseData != null and orderResponseData != ''">
+                and order_response_data = #{orderResponseData}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="distributorId" useGeneratedKeys="true">
+        insert into distributor_order(distributor_name, status, submit_code, submit_msg, report_code, report_msg,
+                                      push_code, push_msg, platform_order_id, created_at, updated_at, cpid, id, orderid,
+                                      timestamp, usercode, account, num, price, callback_url, order_request_sign,
+                                      callback_request_code, callback_request_msg, cpOrderId, type, cardno, cdkey, link,
+                                      callback_request_sign, begin_time, end_time, cdkey_plaintext, order_response_data)
+        values (#{distributorName}, #{status}, #{submitCode}, #{submitMsg}, #{reportCode}, #{reportMsg}, #{pushCode},
+                #{pushMsg}, #{platformOrderId}, #{createdAt}, #{updatedAt}, #{cpid}, #{id}, #{orderid}, #{timestamp},
+                #{usercode}, #{account}, #{num}, #{price}, #{callbackUrl}, #{orderRequestSign}, #{callbackRequestCode},
+                #{callbackRequestMsg}, #{cporderid}, #{type}, #{cardno}, #{cdkey}, #{link}, #{callbackRequestSign},
+                #{beginTime}, #{endTime}, #{cdkeyPlaintext}, #{orderResponseData})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="distributorId" useGeneratedKeys="true">
+        insert into distributor_order(distributor_name, status, submit_code, submit_msg, report_code, report_msg,
+        push_code, push_msg, platform_order_id, created_at, updated_at, cpid, id, orderid, timestamp, usercode, account,
+        num, price, callback_url, order_request_sign, callback_request_code, callback_request_msg, cpOrderId, type,
+        cardno, cdkey, link, callback_request_sign, begin_time, end_time, cdkey_plaintext, order_response_data)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.distributorName}, #{entity.status}, #{entity.submitCode}, #{entity.submitMsg},
+            #{entity.reportCode}, #{entity.reportMsg}, #{entity.pushCode}, #{entity.pushMsg}, #{entity.platformOrderId},
+            #{entity.createdAt}, #{entity.updatedAt}, #{entity.cpid}, #{entity.id}, #{entity.orderid},
+            #{entity.timestamp}, #{entity.usercode}, #{entity.account}, #{entity.num}, #{entity.price},
+            #{entity.callbackUrl}, #{entity.orderRequestSign}, #{entity.callbackRequestCode},
+            #{entity.callbackRequestMsg}, #{entity.cporderid}, #{entity.type}, #{entity.cardno}, #{entity.cdkey},
+            #{entity.link}, #{entity.callbackRequestSign}, #{entity.beginTime}, #{entity.endTime},
+            #{entity.cdkeyPlaintext}, #{entity.orderResponseData})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="distributorId" useGeneratedKeys="true">
+        insert into distributor_order(distributor_name, status, submit_code, submit_msg, report_code, report_msg,
+        push_code, push_msg, platform_order_id, created_at, updated_at, cpid, id, orderid, timestamp, usercode, account,
+        num, price, callback_url, order_request_sign, callback_request_code, callback_request_msg, cpOrderId, type,
+        cardno, cdkey, link, callback_request_sign, begin_time, end_time, cdkey_plaintext, order_response_data)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.distributorName}, #{entity.status}, #{entity.submitCode}, #{entity.submitMsg},
+            #{entity.reportCode}, #{entity.reportMsg}, #{entity.pushCode}, #{entity.pushMsg}, #{entity.platformOrderId},
+            #{entity.createdAt}, #{entity.updatedAt}, #{entity.cpid}, #{entity.id}, #{entity.orderid},
+            #{entity.timestamp}, #{entity.usercode}, #{entity.account}, #{entity.num}, #{entity.price},
+            #{entity.callbackUrl}, #{entity.orderRequestSign}, #{entity.callbackRequestCode},
+            #{entity.callbackRequestMsg}, #{entity.cporderid}, #{entity.type}, #{entity.cardno}, #{entity.cdkey},
+            #{entity.link}, #{entity.callbackRequestSign}, #{entity.beginTime}, #{entity.endTime},
+            #{entity.cdkeyPlaintext}, #{entity.orderResponseData})
+        </foreach>
+        on duplicate key update
+        distributor_name = values(distributor_name) , status = values(status) , submit_code = values(submit_code) ,
+        submit_msg = values(submit_msg) , report_code = values(report_code) , report_msg = values(report_msg) ,
+        push_code = values(push_code) , push_msg = values(push_msg) , platform_order_id = values(platform_order_id) ,
+        created_at = values(created_at) , updated_at = values(updated_at) , cpid = values(cpid) , id = values(id) ,
+        orderid = values(orderid) , timestamp = values(timestamp) , usercode = values(usercode) , account =
+        values(account) , num = values(num) , price = values(price) , callback_url = values(callback_url) ,
+        order_request_sign = values(order_request_sign) , callback_request_code = values(callback_request_code) ,
+        callback_request_msg = values(callback_request_msg) , cpOrderId = values(cpOrderId) , type = values(type) ,
+        cardno = values(cardno) , cdkey = values(cdkey) , link = values(link) , callback_request_sign =
+        values(callback_request_sign) , begin_time = values(begin_time) , end_time = values(end_time) , cdkey_plaintext
+        = values(cdkey_plaintext) , order_response_data = values(order_response_data)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update distributor_order
+        <set>
+            <if test="distributorName != null and distributorName != ''">
+                distributor_name = #{distributorName},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status},
+            </if>
+            <if test="submitCode != null and submitCode != ''">
+                submit_code = #{submitCode},
+            </if>
+            <if test="submitMsg != null and submitMsg != ''">
+                submit_msg = #{submitMsg},
+            </if>
+            <if test="reportCode != null and reportCode != ''">
+                report_code = #{reportCode},
+            </if>
+            <if test="reportMsg != null and reportMsg != ''">
+                report_msg = #{reportMsg},
+            </if>
+            <if test="pushCode != null and pushCode != ''">
+                push_code = #{pushCode},
+            </if>
+            <if test="pushMsg != null and pushMsg != ''">
+                push_msg = #{pushMsg},
+            </if>
+            <if test="platformOrderId != null and platformOrderId != ''">
+                platform_order_id = #{platformOrderId},
+            </if>
+            <if test="createdAt != null">
+                created_at = #{createdAt},
+            </if>
+            <if test="updatedAt != null">
+                updated_at = #{updatedAt},
+            </if>
+            <if test="cpid != null">
+                cpid = #{cpid},
+            </if>
+            <if test="id != null and id != ''">
+                id = #{id},
+            </if>
+            <if test="orderid != null and orderid != ''">
+                orderid = #{orderid},
+            </if>
+            <if test="timestamp != null and timestamp != ''">
+                timestamp = #{timestamp},
+            </if>
+            <if test="usercode != null and usercode != ''">
+                usercode = #{usercode},
+            </if>
+            <if test="account != null and account != ''">
+                account = #{account},
+            </if>
+            <if test="num != null and num != ''">
+                num = #{num},
+            </if>
+            <if test="price != null and price != ''">
+                price = #{price},
+            </if>
+            <if test="callbackUrl != null and callbackUrl != ''">
+                callback_url = #{callbackUrl},
+            </if>
+            <if test="orderRequestSign != null and orderRequestSign != ''">
+                order_request_sign = #{orderRequestSign},
+            </if>
+            <if test="callbackRequestCode != null">
+                callback_request_code = #{callbackRequestCode},
+            </if>
+            <if test="callbackRequestMsg != null and callbackRequestMsg != ''">
+                callback_request_msg = #{callbackRequestMsg},
+            </if>
+            <if test="cporderid != null and cporderid != ''">
+                cpOrderId = #{cporderid},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="cardno != null and cardno != ''">
+                cardno = #{cardno},
+            </if>
+            <if test="cdkey != null and cdkey != ''">
+                cdkey = #{cdkey},
+            </if>
+            <if test="link != null and link != ''">
+                link = #{link},
+            </if>
+            <if test="callbackRequestSign != null and callbackRequestSign != ''">
+                callback_request_sign = #{callbackRequestSign},
+            </if>
+            <if test="beginTime != null and beginTime != ''">
+                begin_time = #{beginTime},
+            </if>
+            <if test="endTime != null and endTime != ''">
+                end_time = #{endTime},
+            </if>
+            <if test="cdkeyPlaintext != null and cdkeyPlaintext != ''">
+                cdkey_plaintext = #{cdkeyPlaintext},
+            </if>
+            <if test="orderResponseData != null and orderResponseData != ''">
+                order_response_data = #{orderResponseData},
+            </if>
+        </set>
+        where distributor_id = #{distributorId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from distributor_order
+        where distributor_id = #{distributorId}
+    </delete>
+
+</mapper>
+

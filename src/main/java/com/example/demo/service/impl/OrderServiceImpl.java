@@ -3,9 +3,12 @@ package com.example.demo.service.impl;
 import com.example.demo.dao.OrderDao;
 import com.example.demo.entity.Order;
 import com.example.demo.service.OrderService;
+import com.sun.istack.internal.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,9 +19,15 @@ import java.util.Map;
  * @since 2021-02-24 13:55:03
  */
 @Service
+// @Scope("prototype") 没有用处
 public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderDao orderDao;
+
+    private int num = 1;
+
+
+    private String hello = null;
 
     /**
      * 通过ID查询单条数据
@@ -81,5 +90,24 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public int insertOrder(Map<String, Object> map) {
         return this.orderDao.insertOrder(map);
+    }
+
+    @Override
+    public int getHello() {
+        num++;
+        return num;
+    }
+
+    public static void main(String[] args) {
+//        List<Integer> list = new ArrayList<>();
+//        list.add(1);
+//        list.add(2);
+//        list.forEach(e -> {
+//            if (e > 1) {
+//                System.out.println("hello");
+//            }
+//        } );
+
+        System.out.println(new OrderServiceImpl().hello);
     }
 }

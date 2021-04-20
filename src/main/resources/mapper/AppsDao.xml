@@ -11,15 +11,20 @@
         <!--collecion和association中的column 可以理解为就是外键字段
         发现不写这个column属性也可以
         -->
-        <collection property="appNewConfigsList" ofType="com.example.demo.entity.AppNewConfigs" column="222">
-            <!--因为Apps中也有个id,所以在appNewConfigsList中将column="id"在写select语句时起一个别名，例如app_new_configs_id-->
-            <result property="id" column="app_new_configs_id" jdbcType="INTEGER"/>
-            <result property="appId" column="app_id" jdbcType="INTEGER"/>
-            <result property="configName" column="config_name" jdbcType="VARCHAR"/>
-            <result property="configValue" column="config_value" jdbcType="VARCHAR"/>
-            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
-            <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
-        </collection>
+        <!--第一种写法-->
+<!--        <collection property="appNewConfigsList" ofType="com.example.demo.entity.AppNewConfigs" javaType="ArrayList" column="app_id">-->
+<!--            &lt;!&ndash;因为Apps中也有个id,所以在appNewConfigsList中将column="id"在写select语句时起一个别名，例如app_new_configs_id&ndash;&gt;-->
+<!--            <result property="id" column="app_new_configs_id" jdbcType="INTEGER"/>-->
+<!--            <result property="appId" column="app_id" jdbcType="INTEGER"/>-->
+<!--            <result property="configName" column="config_name" jdbcType="VARCHAR"/>-->
+<!--            <result property="configValue" column="config_value" jdbcType="VARCHAR"/>-->
+<!--            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>-->
+<!--            <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>-->
+<!--        </collection>-->
+
+        <!--第二种写法-->
+        <collection property="appNewConfigsList" ofType="com.example.demo.entity.AppNewConfigs" javaType="ArrayList" column="id"
+                    select="com.example.demo.dao.AppNewConfigsDao.queryByAppId"/>
     </resultMap>
 
     <sql id="table_field">
@@ -27,6 +32,11 @@
 
     <!--查询单个-->
     <select id="queryById" resultMap="AppsMap">
+        select <include refid="table_field"></include>
+        from apps where id = #{id}
+    </select>
+
+    <select id="queryById1" resultMap="AppsMap">
         select
         t1.id,
         t1.`name`,

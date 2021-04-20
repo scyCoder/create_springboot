@@ -24,6 +24,8 @@ public class MybatisCacheTest extends DemoApplicationTests {
     /**
      * mybatis一级缓存   默认开启   必须要手动使用sqlSession，因为缓存在sqlSession中,如果不通过手动的方式，直接使用mybatis，那么需要开启事务，
      * 是为了多次查询确保使用的是同一个sqlSession对象
+     * 一级缓存或二级缓存，如果在同一个sqlSession对象中操作了update insert delete将会清除缓存中的数据
+     * 一级缓存有两种作用域：session 和 statement 而statement只针对一次查询相等于是关闭了一级缓存
      */
     @Test
     @Transactional(rollbackFor = Exception.class)
@@ -56,6 +58,8 @@ public class MybatisCacheTest extends DemoApplicationTests {
     /**
      * 开启二级缓存：
      *  在orderDao.xml文件中添加标签：<cache eviction="LRU" flushInterval="1000000" readOnly="true" size="1024"></cache>
+     *  单个查询直接使用<cache></cache>标签
+     *  如果是关联查询，还需要关联对应的mapper接口<cache-ref></cache-ref>
      *
      */
     @Test

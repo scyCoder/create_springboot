@@ -22,7 +22,7 @@
         id, app_id, config_name, config_value, created_at, updated_at</sql>
 
     <!--查询单个-->
-    <select id="queryById" resultMap="AppNewConfigsMap">
+    <select id="queryById" resultMap="AppNewConfigsMap" >
         select
         t2.id as apps_id,
         t2.`name`,

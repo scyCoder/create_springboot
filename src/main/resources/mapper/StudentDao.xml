@@ -8,20 +8,39 @@
         <result property="score" column="score" jdbcType="OTHER"/>
         <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
         <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+        <result property="tId" column="t_id" jdbcType="INTEGER"/>
+        <!--
+        在一对一或一对多的关系中，association和collection不能同时出现
+        <association property="teacher" javaType="com.example.demo.entity.Teacher" column="t_id"
+                     select="com.example.demo.dao.TeacherDao.queryById" fetchType="eager"/>
+                     -->
     </resultMap>
+
+    <sql id="table_field">
+        id, name, score, created_at, updated_at, t_id</sql>
 
     <!--查询单个-->
     <select id="queryById" resultMap="StudentMap">
         select
-          id, name, score, created_at, updated_at
+        <include refid="table_field"/>
+
         from student
         where id = #{id}
+    </select>
+
+    <select id="queryByTid" resultMap="StudentMap">
+        select
+        <include refid="table_field"/>
+
+        from student
+        where t_id = #{tId}
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="StudentMap">
         select
-          id, name, score, created_at, updated_at
+        <include refid="table_field"/>
+
         from student
         limit #{offset}, #{limit}
     </select>
@@ -29,7 +48,8 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="StudentMap">
         select
-        id, name, score, created_at, updated_at
+        <include refid="table_field"/>
+
         from student
         <where>
             <if test="id != null">
@@ -47,31 +67,35 @@
             <if test="updatedAt != null">
                 and updated_at = #{updatedAt}
             </if>
+            <if test="tId != null">
+                and t_id = #{tId}
+            </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into student(name, score, created_at, updated_at)
-        values (#{name}, #{score}, #{createdAt}, #{updatedAt})
-    </insert>
+        insert into student(name, score, created_at, updated_at, t_id)
+        values (#{name}, #{score}, #{createdAt}, #{updatedAt}, #{tId})
+</insert>
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into student(name, score, created_at, updated_at)
+        insert into student(name, score, created_at, updated_at, t_id)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.name}, #{entity.score}, #{entity.createdAt}, #{entity.updatedAt})
+            (#{entity.name}, #{entity.score}, #{entity.createdAt}, #{entity.updatedAt}, #{entity.tId})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into student(name, score, created_at, updated_at)
+        insert into student(name, score, created_at, updated_at, t_id)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.name}, #{entity.score}, #{entity.createdAt}, #{entity.updatedAt})
+            (#{entity.name}, #{entity.score}, #{entity.createdAt}, #{entity.updatedAt}, #{entity.tId})
         </foreach>
         on duplicate key update
         name = values(name) , score = values(score) , created_at = values(created_at) , updated_at = values(updated_at)
+        , t_id = values(t_id)
     </insert>
 
     <!--通过主键修改数据-->
@@ -90,6 +114,9 @@
             <if test="updatedAt != null">
                 updated_at = #{updatedAt},
             </if>
+            <if test="tId != null">
+                t_id = #{tId},
+            </if>
         </set>
         where id = #{id}
     </update>
@@ -97,6 +124,6 @@
     <!--通过主键删除-->
     <delete id="deleteById">
         delete from student where id = #{id}
-    </delete>
+</delete>
 
 </mapper>

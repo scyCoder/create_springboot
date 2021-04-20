@@ -28,6 +28,9 @@ public class OneToManyTest extends DemoApplicationTests {
         System.out.println(appsServiceImpl.queryById(7l));
     }
 
+    /**
+     * 一对一查询
+     */
     @Test
     public void oneToOneTest() {
         System.out.println(appNewConfigsServiceImpl.queryById(73l));

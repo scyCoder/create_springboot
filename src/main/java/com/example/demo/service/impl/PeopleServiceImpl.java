@@ -18,7 +18,7 @@ import java.util.List;
  * @author sunchuanyin
  * @since 2021-02-20 16:45:04
  */
-@Service
+@Service("we")
 public class PeopleServiceImpl implements PeopleService {
     @Autowired
     private PeopleDao peopleDao;

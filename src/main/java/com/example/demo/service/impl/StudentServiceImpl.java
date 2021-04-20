@@ -5,7 +5,6 @@ import com.example.demo.entity.Student;
 import com.example.demo.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -13,10 +12,11 @@ import java.util.List;
  * (Student)表服务实现类
  *
  * @author sunchuanyin
- * @since 2021-02-22 11:42:18
+ * @since 2021-02-25 11:48:45
  */
 @Service
 public class StudentServiceImpl implements StudentService {
+
     @Autowired
     private StudentDao studentDao;
 
@@ -61,11 +61,9 @@ public class StudentServiceImpl implements StudentService {
      * @param student 实例对象
      * @return 实例对象
      */
-    @Transactional(rollbackFor = Exception.class)
     @Override
     public Student update(Student student) {
-            this.studentDao.update(student);
-            int i = 1 / 0;
+        this.studentDao.update(student);
         return this.queryById(student.getId());
     }
 

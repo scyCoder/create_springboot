@@ -10,7 +10,7 @@ import java.util.List;
  * (Student)表数据库访问层
  *
  * @author sunchuanyin
- * @since 2021-02-22 11:42:18
+ * @since 2021-02-25 11:48:45
  */
 @Repository
 public interface StudentDao {
@@ -80,5 +80,7 @@ public interface StudentDao {
      * @return 影响行数
      */
     int deleteById(Integer id);
+
+    List<Student> queryByTid(Integer tId);
 
 }

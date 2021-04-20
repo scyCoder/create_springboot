@@ -11,14 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
  * (Student)表控制层
  *
  * @author sunchuanyin
- * @since 2021-02-22 11:42:18
+ * @since 2021-02-25 11:48:45
  */
 @RestController
 @RequestMapping("/student")
 public class StudentController {
-    /**
-     * 服务对象
-     */
+
     @Autowired
     private StudentService studentServiceImpl;
 
