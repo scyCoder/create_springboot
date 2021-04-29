@@ -19,6 +19,25 @@ spring:
       login-timeout: 30000
       connection-timeout: 30000
       pool-name: DatebookHikariCP
+  cloud:
+    #消息中间件配置
+    stream:
+      bindings:
+        # 发送消息
+        my-test-producer-message-out:
+          destination: my-test-producer-message
+          contentType: application/json
+          group: myGroup
+        # 接收消息
+        my-test-producer-message-in:
+          destination: my-test-producer-message
+          contentType: application/json
+          group: myGroup
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: admin
+    password: admin
 
 
   # 热部署配置，只是对页面即时生效，对于java代码还是重启了项目

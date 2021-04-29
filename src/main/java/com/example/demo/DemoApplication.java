@@ -1,10 +1,12 @@
 package com.example.demo;
 
+import com.example.demo.springcloudstream.MqStream;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
@@ -13,6 +15,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+@EnableBinding(MqStream.class)
 @EnableSwagger2
 @SpringBootApplication
 @MapperScan("com.example.demo.dao")
