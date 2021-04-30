@@ -20,7 +20,13 @@ public class MqListener {
     private MqStream mqStream;
 
     @StreamListener(MY_TEST_PRODUCER_MESSAGE_IN)
-    public void receiveMessage(@Payload String message) {
+    public void receiveMessage(String message) {
+        System.out.println("-----------------------------------");
+        try {
+            Thread.sleep(6000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         System.out.println("**********************************************");
         System.out.println("监听的消息：" + message);
     }
