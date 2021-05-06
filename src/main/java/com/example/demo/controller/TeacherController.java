@@ -27,8 +27,18 @@ public class TeacherController {
      * @return 单条数据
      */
     @GetMapping("/selectOne")
-    public Teacher selectOne(Integer id) {
-        return this.teacherServiceImpl.queryById(id);
+    public Teacher selectOne(Integer id) throws Exception {
+        try {
+            int i = 1 / 0;
+            return this.teacherServiceImpl.queryById(id);
+        } catch (ArithmeticException e) {
+            e.printStackTrace();
+            throw new ArithmeticException("ArithmeticException查询报错");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("查询报错");
+        }
     }
 
 }
