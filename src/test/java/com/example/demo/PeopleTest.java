@@ -4,20 +4,22 @@ import com.example.demo.conf.TestAnnotaionConditionalOnProperties;
 import com.example.demo.controller.abstra.TestAbstractController;
 import com.example.demo.entity.Apps;
 import com.example.demo.entity.People;
+import com.example.demo.jpa.JpaTeacherEntity;
+import com.example.demo.jpa.JpaTeacherRepository;
 import com.example.demo.service.PeopleService;
 import com.example.demo.service.impl.thread.ThreadServiceTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.util.Assert;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -33,6 +35,9 @@ public class PeopleTest extends DemoApplicationTests {
 
     @Autowired
     private ThreadServiceTest threadServiceTest;
+
+    @Autowired
+    private JpaTeacherRepository jpaTeacherRepository;
 
 
     public static int staticVar = 0;
@@ -231,5 +236,51 @@ public class PeopleTest extends DemoApplicationTests {
             return;
         }
         System.out.printf(conditionalOnProperties.hello());
+    }
+
+
+    @Test
+    public void test16() {
+        List<Integer > ids = new ArrayList<>();
+        ids.add(1);
+        ids.add(2);
+        Pageable pageable = PageRequest.of(0, 1);
+        List<JpaTeacherEntity> teacherEntity = jpaTeacherRepository.getOneTeachey(ids, "王二",pageable);
+        System.out.println(teacherEntity);
+
+    }
+
+    @Test
+    public void test17() {
+        List<JpaTeacherEntity > ids = new ArrayList<>();
+        JpaTeacherEntity teacherEntity1 = new JpaTeacherEntity();
+        teacherEntity1.setId(1);
+        teacherEntity1.setName("小红");
+        ids.add(teacherEntity1);
+
+        JpaTeacherEntity teacherEntity2 = new JpaTeacherEntity();
+        teacherEntity2.setId(2);
+        teacherEntity2.setName("小红2");
+        ids.add(teacherEntity2);
+
+//        for (int i = 0; i < ids.size(); i++) {
+//            if (ids.get(i).getId() == 2) {
+//                JpaTeacherEntity teacherEntity3 = new JpaTeacherEntity();
+//                teacherEntity3.setId(3);
+//                teacherEntity3.setName("小红3");
+//                ids.set(i,teacherEntity3);
+//            }
+//        }
+
+        for (JpaTeacherEntity id : ids) {
+            if (id.getId() == 2) {
+                JpaTeacherEntity teacherEntity3 = new JpaTeacherEntity();
+                teacherEntity3.setId(3);
+                teacherEntity3.setName("小红3");
+                ids.add(teacherEntity3);
+            }
+        }
+        System.out.println(ids);
+
     }
 }

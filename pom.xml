@@ -17,6 +17,7 @@
         <java.version>1.8</java.version>
         <spring-cloud.version>Greenwich.SR2</spring-cloud.version>
         <guava.version>26.0-jre</guava.version>
+        <version.migration>5.2.4</version.migration>
     </properties>
     <dependencies>
 
@@ -168,6 +169,22 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.11</version>
         </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.6.3</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-core -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${version.migration}</version>
+        </dependency>
+
 
 
     </dependencies>

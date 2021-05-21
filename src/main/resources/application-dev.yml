@@ -41,6 +41,10 @@ spring:
     port: 5672
     username: admin
     password: admin
+    # 项目启动执行SQL
+  flyway:
+    baseline-on-migrate: true
+    locations: classpath:db/migration
 
 
   # 热部署配置，只是对页面即时生效，对于java代码还是重启了项目

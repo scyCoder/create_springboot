@@ -1,0 +1,1 @@
+INSERT INTO `test-demo`.student (id, name, score, created_at, updated_at, t_id) VALUES (10, 'hello', 78, null, null, 2);

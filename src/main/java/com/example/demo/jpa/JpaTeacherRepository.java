@@ -1,9 +1,13 @@
 package com.example.demo.jpa;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author sunchuanyin
@@ -40,5 +44,10 @@ public interface JpaTeacherRepository extends JpaRepository<JpaTeacherEntity, In
      */
     @Query(value = "select * from teacher where id = ?1",nativeQuery = true)
     JpaTeacherEntity findTeacherById(int id);
+
+
+     // @Query(nativeQuery = true,value = "select * from teacher t where t.id not in ?1 and name != ?2 limit 1")
+     @Query(value = "select a from JpaTeacherEntity a where a.id not in (?1) and a.name <> ?2")
+   List<JpaTeacherEntity> getOneTeachey(List<Integer> ids, String name, Pageable pageable);
 
 }
