@@ -14,4 +14,8 @@ public class Test2Controller extends TestAbstractController {
     public void hello() {
         System.out.printf("test2");
     }
+
+    public void master() {
+
+    }
 }
