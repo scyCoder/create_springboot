@@ -16,4 +16,8 @@ public class HelloController {
         System.out.println("22222");
         System.out.println("33333");
     }
+
+    public static void main(String[] args) {
+        System.out.println("dev3.1.7");
+    }
 }
