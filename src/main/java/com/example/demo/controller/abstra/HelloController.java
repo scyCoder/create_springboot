@@ -23,5 +23,6 @@ public class HelloController {
 
         System.out.println("dev3.1.9");
 
+        System.out.println("world");
     }
 }
