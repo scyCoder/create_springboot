@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.OrdersDao">
+
+    <resultMap type="com.example.demo.entity.Orders" id="OrdersMap">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="app_id" property="appId" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="state" property="state" jdbcType="TINYINT"/>
+        <result column="sku_id" property="skuId" jdbcType="BIGINT"/>
+        <result column="price" property="price" jdbcType="INTEGER"/>
+        <result column="newPrice" property="newPrice" jdbcType="INTEGER"/>
+        <result column="coupon_id" property="couponId" jdbcType="BIGINT"/>
+        <result column="out_trade_no" property="outTradeNo" jdbcType="VARCHAR"/>
+        <result column="out_sign_no" property="outSignNo" jdbcType="VARCHAR"/>
+        <result column="out_order_no" property="outOrderNo" jdbcType="VARCHAR"/>
+        <result column="paid_at" property="paidAt" jdbcType="TIMESTAMP"/>
+        <result column="signed_at" property="signedAt" jdbcType="TIMESTAMP"/>
+        <result column="success_at" property="successAt" jdbcType="TIMESTAMP"/>
+        <result column="refunded_at" property="refundedAt" jdbcType="TIMESTAMP"/>
+        <result column="out_refund_no" property="outRefundNo" jdbcType="VARCHAR"/>
+        <result column="third" property="third" jdbcType="VARCHAR"/>
+        <result column="promotion" property="promotion" jdbcType="VARCHAR"/>
+        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
+        <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="table_field">
+        id
+        , app_id, user_id, state, sku_id, price, coupon_id, out_trade_no, out_sign_no, out_order_no, paid_at, signed_at, success_at, refunded_at, out_refund_no, third, promotion, created_at, updated_at</sql>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="OrdersMap" parameterType="long">
+        select
+        <include refid="table_field"/>
+
+        from orders
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="OrdersMap">
+        select
+        <include refid="table_field"/>
+
+        from orders
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="OrdersMap">
+        select
+        <include refid="table_field"/>
+
+        from orders
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="appId != null">
+                and app_id = #{appId}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="state != null">
+                and state = #{state}
+            </if>
+            <if test="skuId != null">
+                and sku_id = #{skuId}
+            </if>
+            <if test="price != null">
+                and price = #{price}
+            </if>
+            <if test="couponId != null">
+                and coupon_id = #{couponId}
+            </if>
+            <if test="outTradeNo != null and outTradeNo != ''">
+                and out_trade_no = #{outTradeNo}
+            </if>
+            <if test="outSignNo != null and outSignNo != ''">
+                and out_sign_no = #{outSignNo}
+            </if>
+            <if test="outOrderNo != null and outOrderNo != ''">
+                and out_order_no = #{outOrderNo}
+            </if>
+            <if test="paidAt != null">
+                and paid_at = #{paidAt}
+            </if>
+            <if test="signedAt != null">
+                and signed_at = #{signedAt}
+            </if>
+            <if test="successAt != null">
+                and success_at = #{successAt}
+            </if>
+            <if test="refundedAt != null">
+                and refunded_at = #{refundedAt}
+            </if>
+            <if test="outRefundNo != null and outRefundNo != ''">
+                and out_refund_no = #{outRefundNo}
+            </if>
+            <if test="third != null and third != ''">
+                and third = #{third}
+            </if>
+            <if test="promotion != null and promotion != ''">
+                and promotion = #{promotion}
+            </if>
+            <if test="createdAt != null">
+                and created_at = #{createdAt}
+            </if>
+            <if test="updatedAt != null">
+                and updated_at = #{updatedAt}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into orders(app_id, user_id, state, sku_id, price, coupon_id, out_trade_no, out_sign_no, out_order_no,
+                           paid_at, signed_at, success_at, refunded_at, out_refund_no, third, promotion, created_at,
+                           updated_at)
+        values (#{appId}, #{userId}, #{state}, #{skuId}, #{price}, #{couponId}, #{outTradeNo}, #{outSignNo},
+                #{outOrderNo}, #{paidAt}, #{signedAt}, #{successAt}, #{refundedAt}, #{outRefundNo}, #{third},
+                #{promotion}, #{createdAt}, #{updatedAt})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into orders(app_id, user_id, state, sku_id, price, coupon_id, out_trade_no, out_sign_no, out_order_no,
+        paid_at, signed_at, success_at, refunded_at, out_refund_no, third, promotion, created_at, updated_at)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.appId}, #{entity.userId}, #{entity.state}, #{entity.skuId}, #{entity.price}, #{entity.couponId},
+            #{entity.outTradeNo}, #{entity.outSignNo}, #{entity.outOrderNo}, #{entity.paidAt}, #{entity.signedAt},
+            #{entity.successAt}, #{entity.refundedAt}, #{entity.outRefundNo}, #{entity.third}, #{entity.promotion},
+            #{entity.createdAt}, #{entity.updatedAt})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into orders(app_id, user_id, state, sku_id, price, coupon_id, out_trade_no, out_sign_no, out_order_no,
+        paid_at, signed_at, success_at, refunded_at, out_refund_no, third, promotion, created_at, updated_at)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.appId}, #{entity.userId}, #{entity.state}, #{entity.skuId}, #{entity.price}, #{entity.couponId},
+            #{entity.outTradeNo}, #{entity.outSignNo}, #{entity.outOrderNo}, #{entity.paidAt}, #{entity.signedAt},
+            #{entity.successAt}, #{entity.refundedAt}, #{entity.outRefundNo}, #{entity.third}, #{entity.promotion},
+            #{entity.createdAt}, #{entity.updatedAt})
+        </foreach>
+        on duplicate key update
+        app_id = values(app_id) , user_id = values(user_id) , state = values(state) , sku_id = values(sku_id) , price =
+        values(price) , coupon_id = values(coupon_id) , out_trade_no = values(out_trade_no) , out_sign_no =
+        values(out_sign_no) , out_order_no = values(out_order_no) , paid_at = values(paid_at) , signed_at =
+        values(signed_at) , success_at = values(success_at) , refunded_at = values(refunded_at) , out_refund_no =
+        values(out_refund_no) , third = values(third) , promotion = values(promotion) , created_at = values(created_at)
+        , updated_at = values(updated_at)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update orders
+        <set>
+            <if test="appId != null">
+                app_id = #{appId},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="state != null">
+                state = #{state},
+            </if>
+            <if test="skuId != null">
+                sku_id = #{skuId},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="couponId != null">
+                coupon_id = #{couponId},
+            </if>
+            <if test="outTradeNo != null and outTradeNo != ''">
+                out_trade_no = #{outTradeNo},
+            </if>
+            <if test="outSignNo != null and outSignNo != ''">
+                out_sign_no = #{outSignNo},
+            </if>
+            <if test="outOrderNo != null and outOrderNo != ''">
+                out_order_no = #{outOrderNo},
+            </if>
+            <if test="paidAt != null">
+                paid_at = #{paidAt},
+            </if>
+            <if test="signedAt != null">
+                signed_at = #{signedAt},
+            </if>
+            <if test="successAt != null">
+                success_at = #{successAt},
+            </if>
+            <if test="refundedAt != null">
+                refunded_at = #{refundedAt},
+            </if>
+            <if test="outRefundNo != null and outRefundNo != ''">
+                out_refund_no = #{outRefundNo},
+            </if>
+            <if test="third != null and third != ''">
+                third = #{third},
+            </if>
+            <if test="promotion != null and promotion != ''">
+                promotion = #{promotion},
+            </if>
+            <if test="createdAt != null">
+                created_at = #{createdAt},
+            </if>
+            <if test="updatedAt != null">
+                updated_at = #{updatedAt},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from orders
+        where id = #{id}
+    </delete>
+
+
+    <update id="updateOrder" parameterType="com.example.demo.entity.Orders">
+        update orders
+        set state = #{state,jdbcType=TINYINT},
+            updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=BIGINT} and state = 20
+    </update>
+
+</mapper>
+

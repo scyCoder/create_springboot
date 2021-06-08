@@ -19,9 +19,9 @@ spring:
       login-timeout: 30000
       connection-timeout: 30000
       pool-name: DatebookHikariCP
-  jpa:
-    hibernate:
-    show-sql: true  #日志中显示sql语句
+#  jpa:
+#    hibernate:
+#    show-sql: true  #日志中显示sql语句
   cloud:
     #消息中间件配置
     stream:
@@ -65,14 +65,14 @@ spring:
 
 
 
-# mybatis配置 sql位置
-#mybatis:
-#  mapper-locations: classpath:mapper/*.xml
-#  type-aliases-package: com.example.demo
-#  configuration:
-#    # mybatis的延迟加载
-#    lazy-loading-enabled: true
-#    aggressive-lazy-loading: false
+#mybatis配置 sql位置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.demo
+  configuration:
+    # mybatis的延迟加载
+    lazy-loading-enabled: true
+    aggressive-lazy-loading: false
 
 #日志（有sql语句的打印）
 logging:
