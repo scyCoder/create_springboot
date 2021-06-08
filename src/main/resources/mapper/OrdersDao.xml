@@ -29,8 +29,15 @@
         id
         , app_id, user_id, state, sku_id, price, coupon_id, out_trade_no, out_sign_no, out_order_no, paid_at, signed_at, success_at, refunded_at, out_refund_no, third, promotion, created_at, updated_at</sql>
 
-    <!--查询单个-->
+    <!--查询单个 采用了悲观锁-->
     <select id="queryById" resultMap="OrdersMap" parameterType="long">
+        select
+        <include refid="table_field"/>
+
+        from orders
+        where id = #{id,jdbcType=BIGINT} for update
+    </select>
+    <select id="queryByIdd" resultMap="OrdersMap" parameterType="long">
         select
         <include refid="table_field"/>
 
@@ -225,6 +232,7 @@
     </delete>
 
 
+    <!--采用了乐观锁   添加条件state=20  其实这个20 应该是先通过查询语句查询出来，不应该写死的，但是在订购回调里，可以写死，如果用了悲观送，可以不用这个条件-->
     <update id="updateOrder" parameterType="com.example.demo.entity.Orders">
         update orders
         set state = #{state,jdbcType=TINYINT},

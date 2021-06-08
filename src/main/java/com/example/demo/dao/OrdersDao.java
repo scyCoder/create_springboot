@@ -82,5 +82,7 @@ public interface OrdersDao {
     int deleteById(Object id);
 
     int updateOrder(Orders orders);
+
+    Orders queryByIdd(Long id);
 }
 

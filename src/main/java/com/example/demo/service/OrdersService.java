@@ -54,4 +54,6 @@ public interface OrdersService {
     boolean deleteById(Object id);
 
     int updateOrder(Orders orders);
+
+    Orders queryByIdd(Long id);
 }

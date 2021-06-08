@@ -24,9 +24,10 @@ public class OrderCallbackServiceImpl implements OrderCallBackService{
     private OrdersService ordersServiceImpl;
 
     @Override
+    @Transactional // 如果采用悲观锁，必须添加事务注解
     public void orderCallBack(Long id) {
         log.info("当前线程：{},订购回调id: {}==========================================",Thread.currentThread().getName(),id);
-        Orders order2 = ordersServiceImpl.queryById(id);
+        Orders order2 = ordersServiceImpl.queryById(id); // 如果采用了悲观送，执行了此行代码，那么当前线程将继续执行知道结束，其他的线程才会继续执行
         log.info("当前线程：{},查询的订单数据：{}",Thread.currentThread().getName(),JSON.toJSON(order2));
         // 订购回调失败，更新订单状态为退款中
         // 订单失败，将订单状态改为退款中

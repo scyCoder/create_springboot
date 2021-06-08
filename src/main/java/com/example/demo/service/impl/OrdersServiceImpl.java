@@ -80,6 +80,11 @@ public class OrdersServiceImpl implements OrdersService {
         return this.ordersDao.deleteById(id) > 0;
     }
 
+    @Override
+    public Orders queryByIdd(Long id) {
+        return this.ordersDao.queryByIdd(id);
+    }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public int updateOrder(Orders orders) {
