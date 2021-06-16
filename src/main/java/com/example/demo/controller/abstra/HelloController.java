@@ -1,5 +1,8 @@
 package com.example.demo.controller.abstra;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author sunchuanyin
  * @version 1.0
@@ -8,21 +11,25 @@ package com.example.demo.controller.abstra;
  */
 public class HelloController {
 
-    public void getHello() {
-        System.out.println("hello");
-        System.out.println("hello");
-        System.out.println("hello world");
-        System.out.println("11111");
-        System.out.println("22222");
-        System.out.println("33333");
-    }
+
 
     public static void main(String[] args) {
 
-        System.out.println("dev3.1.7");
+        Map<String,String> map = new HashMap<>();
+        map.put("hello","123");
+        getMap(map);
+        System.out.println(map);
+        String str = "a";
+        getHello(str);
+        System.out.println(str);
+    }
 
-        System.out.println("dev3.1.9");
+    public static void getHello(String str) {
+        str = "b";
+    }
 
-        System.out.println("world");
+    public static void getMap(Map<String ,String> str) {
+        str.put("hello","234");
+        str.put("world","888");
     }
 }

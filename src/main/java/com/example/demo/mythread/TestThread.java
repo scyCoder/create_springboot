@@ -1,5 +1,9 @@
 package com.example.demo.mythread;
 
+import com.example.demo.mythread.threadpool.LoggingWidget;
+
+import java.util.concurrent.*;
+
 /**
  * @author sunchuanyin
  * @version 1.0
@@ -9,17 +13,29 @@ package com.example.demo.mythread;
 public class TestThread {
 
     public static void main(String[] args) throws InterruptedException {
-        MyThread myThread = new MyThread();
-//        myThread.setName("a");
+//        MyThread myThread = new MyThread();
+////        myThread.setName("a");
+////        myThread.start();
+//
+//        //Thread thread = new Thread(myThread);
+////        thread.setName("a");
+////        thread.start();
 //        myThread.start();
-
-        //Thread thread = new Thread(myThread);
-//        thread.setName("a");
-//        thread.start();
-        myThread.start();
-        Thread.sleep(60000);
-        myThread.interrupt();
-        System.out.println("是否停止1：" + myThread.isInterrupted());
-        System.out.println("是否停止2：" + myThread.isInterrupted());
+//        Thread.sleep(60000);
+//        myThread.interrupt();
+//        System.out.println("是否停止1：" + myThread.isInterrupted());
+//        System.out.println("是否停止2：" + myThread.isInterrupted());
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(2,2,20,
+                TimeUnit.SECONDS,new ArrayBlockingQueue<>(3),
+                Executors.defaultThreadFactory(),// 线程工厂
+                new ThreadPoolExecutor.AbortPolicy());
+        executor.execute(() -> new LoggingWidget().doSomething());
+//        Future<?> submit = executorService.submit(() -> new LoggingWidget().doSomething());
+        LoggingWidget loggingWidget = new LoggingWidget();
+        // loggingWidget.doSomething();
     }
+
+
+
+
 }
