@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 /**
  * @author sunchuanyin
  * @version 1.0
- * @description
+ * @description synchronized代码块的使用，和锁的获取，必须是唯一的
  * @date 2021/6/15 5:15 下午
  */
 @Service
@@ -22,8 +22,8 @@ public class SynchroizedThreadService {
 //        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
-        synchronized (this) {
-            System.out.println("this ===============" + this);
+        synchronized (lock) {
+            System.out.println("this ===============" + lock);
             System.out.println("当前线程拿到了锁进入了synchroized A块中：" + Thread.currentThread().getName());
             try {
                 System.out.println("当前线程synchroized A,睡一觉====================" + Thread.currentThread().getName());

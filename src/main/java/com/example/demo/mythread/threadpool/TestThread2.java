@@ -2,10 +2,7 @@ package com.example.demo.mythread.threadpool;
 
 import com.example.demo.mythread.threadpool.LoggingWidget;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * @author sunchuanyin
@@ -17,7 +14,7 @@ public class TestThread2 {
 
     public static void main(String[] args) throws InterruptedException {
 
-        // 创建线程池
+        // 创建线程池ThreadPoolExecutor的方式
         ThreadPoolExecutor executor = new ThreadPoolExecutor(
                 2,
                 2,
@@ -29,9 +26,16 @@ public class TestThread2 {
                 new ThreadPoolExecutor.AbortPolicy());
         // 次线程执行
         // 程序没有结束，查看thread dump，显示线程waiting，是因为线程池会继续处理接收到的任务，如果需要结束，需要执行shutdown
-        executor.execute(() -> new LoggingWidget().doSomething());
-        // 程序正常执行完毕
+        // executor.execute(() -> new LoggingWidget().doSomething());
+
+
+        // 程序正常执行完毕 创建一个线程
         // new Thread(()->new LoggingWidget().doSomething()).start();
+
+        // 创建线程池 ExecutorService的方式，线程执行完，不出结束程序，如果需要结束，需要使用shutdown
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.submit(()->new LoggingWidget().doSomething());
+        executorService.shutdown();
 
 
         // 主线程执行，程序正常执行完毕
