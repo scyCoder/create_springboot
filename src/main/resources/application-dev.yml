@@ -80,9 +80,16 @@ logging:
   level:
     "com.example.demo": debug
 
-#enable swagger
+#enable swagger，springBoot继承swagger
 swagger:
   enable: true
+
+#引入自定义swagger的启动器配置
+system:
+  swagger2:
+    basePackage: com.example.demo.controller #api文档controller扫描路径 package全路径 必填
+    title: test-demo服务 #api文档标题
+    description: test-demo API接口文档 #api文档描述
 
 #system:
 #  test: true

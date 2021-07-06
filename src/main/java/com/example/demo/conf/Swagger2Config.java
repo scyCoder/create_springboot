@@ -29,13 +29,13 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * @Author scott
+ * @Author scott  注解是springboot继承使用这个Swagger2Config
  */
-@Slf4j
-@Configuration
-@EnableSwagger2
-@EnableSwaggerBootstrapUI
-@ConditionalOnProperty(name = "swagger.enable", havingValue = "true")
+//@Slf4j
+//@Configuration
+//@EnableSwagger2
+//@EnableSwaggerBootstrapUI
+//@ConditionalOnProperty(name = "swagger.enable", havingValue = "true")
 public class Swagger2Config implements WebMvcConfigurer {
 
 
