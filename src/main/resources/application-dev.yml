@@ -36,6 +36,15 @@ spring:
           destination: my-test-producer-message
           contentType: application/json
           group: myGroup
+      #配置需要延迟发送的mq消息的生产者和消费者
+      rabbit:
+        bindings:
+          my-test-producer-message-out:
+            producer:
+              delayed-exchange: true
+          my-test-producer-message-in:
+            consumer:
+              delayed-exchange: true
   rabbitmq:
     host: 127.0.0.1
     port: 5672
