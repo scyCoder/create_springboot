@@ -50,6 +50,14 @@ public class PeopleTest extends DemoApplicationTests {
 
     }
 
+    @Test
+    public void insertPeople() {
+        People people1 = new People();
+        people1.setName("hehe");
+        peopleServiceImpl.insert(people1);
+
+    }
+
 
     @Test
     public void updatePeople() {

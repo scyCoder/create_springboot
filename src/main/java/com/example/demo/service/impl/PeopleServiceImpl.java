@@ -7,6 +7,7 @@ import com.example.demo.service.PeopleService;
 import com.example.demo.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
@@ -24,6 +25,9 @@ public class PeopleServiceImpl implements PeopleService {
     private PeopleDao peopleDao;
     @Autowired
     private StudentService studentServiceImpl;
+
+    @Autowired
+    private PeopleServiceImpl peopleServiceImpl;
 
     private final People people = new People();
 
@@ -61,8 +65,18 @@ public class PeopleServiceImpl implements PeopleService {
     @Transactional
     @Override
     public People insert(People people) {
-        this.peopleDao.insert(people);
-        return people;
+        peopleDao.insert(people); // 回滚
+        peopleServiceImpl.updatePeople(1);
+        throw new NullPointerException();
+    }
+
+    //@Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public void updatePeople(int id) {
+        People people = new People();
+        people.setId(1);
+        people.setName("update");
+        peopleDao.update(people); // 不会滚
+
     }
 
     /**
