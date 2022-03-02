@@ -1,5 +1,6 @@
 package com.example.demo.atomic;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -19,5 +20,9 @@ public class AtomicTest {
             }
         }
         System.out.println(l);
+
+
+        AtomicInteger atomicInteger = new AtomicInteger(5);
+        atomicInteger.getAndIncrement();
     }
 }
